@@ -347,3 +347,291 @@ footer {
     color: #513f25;
     padding: 10px;
 }
+
+.coin-mark {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 10px;
+    color: rgba(84, 63, 35, 0.435); /* Color marrón claro semitransparente */
+    pointer-events: none;
+    user-select: none;
+    font-family: 'PixelFont', monospace;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        height: 100%;
+    }
+    
+    #game-container {
+        height: auto;
+        min-height: 100vh;
+        border-left: 4px solid #65431f;
+        border-right: 4px solid #65431f;
+        padding-bottom: 20px;
+    }
+    
+    h1 {
+        font-size: 24px;
+        margin: 15px 0;
+    }
+    
+    #castle-banner {
+        height: 60px;
+        background-size: 100px 25px;
+    }
+    
+    .pixel-border {
+        padding: 15px 10px;
+        margin: 10px auto;
+        max-width: 90%;
+    }
+    
+    .upgrade-menu {
+        margin-top: 10px;
+        justify-content: space-around;
+    }
+    
+    .upgrade-item {
+        padding: 6px;
+        margin: 5px;
+        max-width: 45%;
+        font-size: 14px;
+    }
+    
+    #escape-button {
+        margin: 20px auto;
+        padding: 10px 15px;
+        font-size: 18px;
+    }
+    
+    /* Modal adjustments for mobile */
+    .modal-content {
+        margin: 5% auto;
+        padding: 20px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    /* Intro modal adjustments */
+    #intro-modal .modal-content {
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    /* Info button position fix */
+    .info-button {
+        top: 10px;
+        right: 15px;
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+        line-height: 32px;
+    }
+    
+    /* Victory screen adjustments */
+    .victory-screen {
+        padding: 10px;
+    }
+    
+    /* Make buttons easier to tap on mobile */
+    .btn, .upgrade-item {
+        min-height: 44px;
+    }
+    
+    /* Ensure coin size is appropriate */
+    .coin {
+        width: 50px;
+        height: 50px;
+    }
+    
+    /* Prevent text overflow */
+    #coin-balance, #message {
+        font-size: 16px;
+        padding: 0 5px;
+    }
+    
+    /* Make the mine button more prominent */
+    #mine-btn {
+        padding: 10px 20px;
+        margin: 10px auto;
+        font-size: 16px;
+        display: block;
+    }
+    
+    /* Adjust footer space */
+    footer {
+        margin-top: 20px;
+        padding: 5px;
+    }
+    
+    /* Allow scrolling only when needed */
+    html, body {
+        max-height: 100%;
+    }
+}
+
+
+/* Progress Bar */
+.progress-container {
+    width: 80%;
+    height: 20px;
+    background-color: #352818;
+    border: 3px solid #513f25;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #8b0000;
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+#progress-percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #f8d878;
+    font-size: 14px;
+    text-shadow: 1px 1px 0 #000;
+}
+
+/* Save/Load Buttons */
+.save-load-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px auto;
+}
+
+#save-button, #load-button {
+    font-size: 14px;
+    padding: 8px 15px;
+}
+
+/* Daily Bonus Button */
+#daily-bonus-btn {
+    background-color: #8b0000;
+    color: #ffd700;
+    margin: 15px auto;
+    display: block;
+    animation: pulse 1s infinite;
+}
+
+/* Golden Pickaxe Upgrade */
+#golden-pickaxe-upgrade {
+    background-color: #513f25;
+    border: 4px solid #ffd700 !important;
+    box-shadow: 0 0 10px #ffd700;
+}
+
+/* Stats Button */
+#stats-button {
+    bottom: 10px;
+    top: auto;
+    right: 10px;
+    font-size: 20px;
+}
+
+/* Coin Special Animations */
+@keyframes coinPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.coin-animation {
+    animation: coinPulse 0.5s ease;
+}
+
+/* Achievement Notification */
+.achievement {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #513f25;
+    border: 3px solid #ffd700;
+    padding: 10px 20px;
+    color: #ffd700;
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.achievement.show {
+    opacity: 1;
+    animation: slideUp 0.5s, fadeOut 0.5s 3.5s;
+}
+
+@keyframes slideUp {
+    from { transform: translate(-50%, 20px); opacity: 0; }
+    to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Floating Numbers Animation Enhancement */
+@keyframes float-number {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+}
+
+.floating-number {
+    position: absolute;
+    font-size: 20px;
+    color: #ffd700;
+    text-shadow: 1px 1px 0 #000;
+    pointer-events: none;
+    animation: float-number 1.5s forwards;
+    font-weight: bold;
+    z-index: 100;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 768px) {
+    .progress-container {
+        width: 90%;
+        height: 16px;
+    }
+    
+    #progress-percentage {
+        font-size: 12px;
+    }
+    
+    .save-load-container {
+        flex-direction: row;
+        gap: 5px;
+    }
+    
+    #save-button, #load-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    #stats-button {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        line-height: 32px;
+    }
+    
+    .achievement {
+        width: 80%;
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+}

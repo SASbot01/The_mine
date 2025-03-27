@@ -10,6 +10,8 @@ const escapeGoal = 1000000000; // 1 billion gold to escape
 let secretKeysFound = 0;
 const requiredKeys = 3;
 let secretKeys = [];
+// Variable para evitar clics duplicados
+let isProcessingClick = false;
 
 // Initialize encryption keys
 function initSecretKeys() {
@@ -117,8 +119,14 @@ function updateDisplay() {
     }
 }
 
-// Event listeners
-mineBtn.addEventListener('click', () => {
+// Event listeners - Con corrección para evitar clics duplicados
+mineBtn.addEventListener('click', function(event) {
+    // Si ya estamos procesando un clic, ignorar este nuevo clic
+    if (isProcessingClick) return;
+    
+    // Marcar que estamos procesando un clic
+    isProcessingClick = true;
+    
     gold += clickValue;
     playCollectSound();
     updateDisplay();
@@ -146,11 +154,21 @@ mineBtn.addEventListener('click', () => {
     setTimeout(() => {
         floatingText.remove();
     }, 1000);
+    
+    // Permitir otro clic después de un pequeño retraso
+    setTimeout(() => {
+        isProcessingClick = false;
+    }, 100);
+});
+
+// Prevenir eventos táctiles fantasma
+mineBtn.addEventListener('touchstart', function(event) {
+    event.preventDefault();
 });
 
 // Add debug boost for testing
 mineBtn.addEventListener('dblclick', () => {
-    gold += 10000000;
+    gold += 1;
     updateDisplay();
 });
 
@@ -337,18 +355,20 @@ function showVictoryScreen(completedChallenge = false) {
         const flag = atob(atob(encryptedFlag));
         
         flagSection = `
-            <div style="background-color: #1a1a1a; padding: 20px; border: 2px solid #ffd700; margin: 20px 0; font-family: monospace; color: #00ff00; text-align: center;">
+            <div style="background-color: #1a1a1a; padding: 15px; border: 2px solid #ffd700; margin: 20px 0; font-family: monospace; color: #00ff00; text-align: center;">
                 CTF Flag: ${flag}
             </div>
         `;
     }
     
-    // Victory!
+    // Victory! - with responsive design
     document.body.innerHTML = `
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #000; overflow: hidden;">
-            <h1 style="color: #ffd700; font-size: 48px; text-shadow: 0 0 10px #ffd700; margin-bottom: 40px; font-family: 'PixelFont', monospace;">YOU ESCAPED!</h1>
-            <div style="width: 300px; height: 300px; background-color: #ffd700; border-radius: 50%; box-shadow: 0 0 50px 30px #ffd700; animation: float 3s infinite alternate ease-in-out;"></div>
-            <p style="color: #fff; font-size: 24px; max-width: 600px; text-align: center; margin-top: 40px; font-family: 'PixelFont', monospace;">
+        <div class="victory-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #000; overflow-x: hidden; padding: 20px 10px;">
+            <h1 style="color: #ffd700; font-size: min(48px, 8vw); text-shadow: 0 0 10px #ffd700; margin-bottom: 20px; font-family: 'PixelFont', monospace;">YOU ESCAPED!</h1>
+            
+            <div style="width: min(300px, 70vw); height: min(300px, 70vw); background-color: #ffd700; border-radius: 50%; box-shadow: 0 0 50px 30px #ffd700; animation: float 3s infinite alternate ease-in-out;"></div>
+            
+            <p style="color: #fff; font-size: min(24px, 5vw); max-width: min(600px, 90vw); text-align: center; margin-top: 20px; font-family: 'PixelFont', monospace;">
                 ${completedChallenge ? 
                   'Congratulations! You found all the keys and escaped with ' + Math.floor(gold).toLocaleString() + ' gold coins!' : 
                   'After gathering ' + Math.floor(gold).toLocaleString() + ' gold coins, you have finally escaped the mine and achieved freedom!'}
@@ -356,24 +376,42 @@ function showVictoryScreen(completedChallenge = false) {
             
             ${flagSection}
             
-            <a href="https://t.me/yourgroupname" target="_blank" style="
+            <a href="${completedChallenge ? 'https://t.me/+GASooYg6QzU2ZWNk' : 'https://chat.whatsapp.com/Cr7wOya3qJl76zgQOIo1P3'}" target="_blank" style="
                 display: block;
-                margin: 30px auto 10px auto;
-                padding: 15px 30px;
+                margin: 20px auto;
+                padding: 12px 20px;
                 background-color: #0088cc;
                 color: #ffffff;
-                font-size: 24px;
+                font-size: min(24px, 5vw);
                 text-decoration: none;
                 border: 4px solid #ffffff;
                 box-shadow: 0 0 10px #0088cc;
                 animation: pulse 2s infinite;
                 font-family: 'PixelFont', monospace;
                 transition: all 0.3s;
-            ">LET'S TALK ON TELEGRAM</a>
+                text-align: center;
+            ">${completedChallenge ? "ACCEDE AL CLUB DE GANADORES" : "ÚNETE AL GRUPO DE ESCAPE"}</a>
             
-            <button onclick="location.reload()" style="margin-top: 30px; padding: 15px 30px; background-color: #513f25; color: #ffd700; font-size: 20px; border: 4px solid #ffd700; cursor: pointer; font-family: 'PixelFont', monospace;">Play Again</button>
+            <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 20px; background-color: #513f25; color: #ffd700; font-size: min(20px, 5vw); border: 4px solid #ffd700; cursor: pointer; font-family: 'PixelFont', monospace;">Play Again</button>
         </div>
     `;
+    
+    // Add responsive CSS for the victory screen
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+        @media screen and (max-width: 768px) {
+            .victory-screen {
+                padding: 10px 5px;
+            }
+            
+            .victory-screen a, .victory-screen button {
+                width: 90%;
+                max-width: 300px;
+                padding: 10px;
+            }
+        }
+    `;
+    document.head.appendChild(styleElement);
     
     // Victory sound
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -433,3 +471,110 @@ window.addEventListener('click', (event) => {
 
 // Initialize
 updateDisplay();
+
+// Add these functions to script.js
+
+// Save game state to localStorage
+function saveGame() {
+    const gameState = {
+        gold: gold,
+        clickValue: clickValue,
+        autoMineValue: autoMineValue,
+        pickaxeLevel: pickaxeLevel,
+        minerLevel: minerLevel,
+        wizardLevel: wizardLevel,
+        dragonLevel: dragonLevel,
+        secretKeysFound: secretKeysFound,
+        lastSaved: new Date().getTime()
+    };
+    
+    localStorage.setItem('medievalPixelCoinSave', JSON.stringify(gameState));
+    console.log("Game saved!");
+}
+
+// Load game state from localStorage
+function loadGame() {
+    const savedGame = localStorage.getItem('medievalPixelCoinSave');
+    
+    if (savedGame) {
+        try {
+            const gameState = JSON.parse(savedGame);
+            
+            // Restore game state
+            gold = gameState.gold || 0;
+            clickValue = gameState.clickValue || 1;
+            autoMineValue = gameState.autoMineValue || 0;
+            pickaxeLevel = gameState.pickaxeLevel || 0;
+            minerLevel = gameState.minerLevel || 0;
+            wizardLevel = gameState.wizardLevel || 0;
+            dragonLevel = gameState.dragonLevel || 0;
+            secretKeysFound = gameState.secretKeysFound || 0;
+            
+            // Update display and upgrade costs
+            updateDisplay();
+            updateUpgradeCosts();
+            
+            // Show a welcome back message
+            const timeSinceLastPlay = new Date().getTime() - (gameState.lastSaved || 0);
+            const minutesAway = Math.floor(timeSinceLastPlay / (1000 * 60));
+            
+            if (minutesAway > 0) {
+                message.textContent = `Welcome back! You were gone for ${minutesAway} minutes.`;
+                setTimeout(() => {
+                    message.textContent = "";
+                }, 4000);
+            }
+            
+            console.log("Game loaded successfully!");
+            return true;
+        } catch (error) {
+            console.error("Error loading saved game:", error);
+            return false;
+        }
+    }
+    return false;
+}
+
+// Update upgrade costs function
+function updateUpgradeCosts() {
+    pickaxeUpgrade.querySelector('div:nth-child(2)').textContent = `Cost: ${Math.floor(10 * Math.pow(1.5, pickaxeLevel))}`;
+    pickaxeUpgrade.querySelector('div:nth-child(3)').textContent = `+${clickValue} per click`;
+    
+    minerUpgrade.querySelector('div:nth-child(2)').textContent = `Cost: ${Math.floor(50 * Math.pow(1.5, minerLevel))}`;
+    wizardUpgrade.querySelector('div:nth-child(2)').textContent = `Cost: ${Math.floor(200 * Math.pow(1.5, wizardLevel))}`;
+    dragonUpgrade.querySelector('div:nth-child(2)').textContent = `Cost: ${Math.floor(1000 * Math.pow(1.5, dragonLevel))}`;
+}
+
+// Add a save feature every minute
+setInterval(saveGame, 60000);
+
+// Save game on page unload
+window.addEventListener('beforeunload', saveGame);
+
+// Load game on page load (add this to the bottom of the file, just before the updateDisplay() call)
+document.addEventListener('DOMContentLoaded', function() {
+    // Try to load the game after the intro modal is closed
+    document.getElementById('intro-modal').addEventListener('click', function(event) {
+        if (event.target.tagName === 'BUTTON') {
+            setTimeout(loadGame, 100);
+        }
+    });
+    
+    // Add reset button to game interface
+    const resetButton = document.createElement('button');
+    resetButton.className = 'btn';
+    resetButton.style.fontSize = '14px';
+    resetButton.style.padding = '6px 12px';
+    resetButton.style.margin = '10px auto';
+    resetButton.style.display = 'block';
+    resetButton.textContent = 'Reset Progress';
+    
+    resetButton.addEventListener('click', function() {
+        if (confirm('Are you sure you want to reset all progress? This cannot be undone!')) {
+            localStorage.removeItem('medievalPixelCoinSave');
+            location.reload();
+        }
+    });
+    
+    document.querySelector('footer').insertAdjacentElement('beforebegin', resetButton);
+});
