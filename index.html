@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medieval Pixel Coin</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="A medieval mining game with a hidden CTF challenge">
+    <meta name="ctf-hint" content="Check the page source for clues">
+</head>
+<body>
+    <div id="game-container">
+        <div id="castle-banner"></div>
+        <h1>MEDIEVAL PIXEL COIN</h1>
+        
+        <div class="pixel-border">
+            <div class="coin-container">
+                <div class="coin" id="main-coin">G</div>
+            </div>
+            
+            <div id="coin-balance">Gold: 0</div>
+            <div id="message"></div>
+            
+            <button class="btn" id="mine-btn">Mine Gold [+1]</button>
+            
+            <div class="upgrade-menu">
+                <div class="upgrade-item" id="pickaxe-upgrade">
+                    <div>Pickaxe</div>
+                    <div>Cost: 10</div>
+                    <div>+1 per click</div>
+                </div>
+                
+                <div class="upgrade-item" id="miner-upgrade">
+                    <div>Dwarf Miner</div>
+                    <div>Cost: 50</div>
+                    <div>+1 per second</div>
+                </div>
+                
+                <div class="upgrade-item" id="wizard-upgrade">
+                    <div>Wizard</div>
+                    <div>Cost: 200</div>
+                    <div>+5 per second</div>
+                </div>
+                
+                <div class="upgrade-item" id="dragon-upgrade">
+                    <div>Dragon</div>
+                    <div>Cost: 1000</div>
+                    <div>+25 per second</div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="escape-button">ESCAPE THE MINE (Cost: 1,000,000,000 Gold)</button>
+        <footer>Kingdom Pixel Clicker v1.0 <span style="color: transparent; font-size: 1px;">CTF Challenge: Find all 3 keys</span></footer>
+    </div>
+    
+    <!-- Info Button -->
+    <div class="info-button" id="info-button">?</div>
+    
+    <!-- CTF Info Modal -->
+    <div id="ctf-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="close-modal">×</span>
+            <div class="ctf-title">🛠 CTF Challenge: Medieval Pixel Coin</div>
+            <div class="ctf-description">
+                Un juego de minería medieval… con un secreto escondido.
+            </div>
+            <div class="ctf-mission">
+                <p>Tu misión es:</p>
+                <ul>
+                    <li>Jugar como un minero codicioso.</li>
+                    <li>Hackear lo que sea necesario para progresar.</li>
+                    <li>Encontrar las <strong>3 llaves ocultas</strong> usando tus habilidades de inspección, consola, lógica y deducción.</li>
+                    <li>Introducirlas en el orden correcto para revelar el <strong>flag</strong>.</li>
+                </ul>
+            </div>
+            <div class="ctf-description">
+                Este es un reto de tipo <strong>OSINT + JS + lógica</strong>. No necesitas romper nada, solo mirar lo que nadie mira 😉.
+            </div>
+            <div class="ctf-footer">
+                ¡Buena suerte, forjador de banderas! ⚔️
+            </div>
+        </div>
+    </div>
+    
+    <div id="intro-modal" class="modal" style="display: block;">
+        <div class="modal-content">
+          <div style="text-align: left; line-height: 1.6; font-size: 16px; white-space: pre-line;">
+            <strong style="font-size: 22px; display: block; margin-bottom: 15px;">💀 Has despertado en la oscuridad de una antigua mina olvidada...</strong>
+            Los ecos de los martillos retumban entre las piedras. Nadie recuerda cómo entraste…
+            Quizás fue la codicia, quizás fue la leyenda de una fortuna sin fin.
+      
+            Ahora, con una antorcha en mano y una vieja moneda brillando entre tus dedos, solo queda una salida: excavar.
+      
+            Cuanto más minas, más oro encuentras...
+            Cuanto más oro, más deseas...
+            Cuanto más deseas… más te consumes.
+      
+            ⚠️ Muchos entraron buscando riqueza.
+            Ninguno volvió cuerd@.
+      
+            ✡ ¿Lograrás salir antes de que la fiebre del oro te atrape para siempre?
+            O tal vez... hay un secreto escondido entre las sombras de esta mina.
+      
+            🔑 Solo los más astutos encontrarán las 3 llaves para escapar...
+          </div>
+          <button onclick="document.getElementById('intro-modal').style.display='none'" style="margin-top: 30px; padding: 12px 24px; font-size: 18px; background-color: #513f25; color: #ffd700; border: 3px solid #f8d878; font-family: 'PixelFont', monospace; cursor: pointer;">
+            Comenzar
+          </button>
+        </div>
+      </div>
+    <script src="script.js"></script>
+</body>
+</html>
